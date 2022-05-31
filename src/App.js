@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from './views/Login';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Help from './views/Help';
+import Admin from './views/Admin';
+import Chat from './views/Chat';
+import Topic from './views/Topic';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+          <Routes>
+            <Route path="/">
+              <Route index element={<Login />} />
+              <Route path="help" element={<Help />} />
+              <Route path="admin" element={<Admin />} />
+              <Route path="chat" element={<Chat isAdmin={true} />} />
+              <Route path="topic" element={<Topic />} />
+              <Route path="topic/chat" element={<Chat isAdmin={false} />} />
+                {/* <Route path=":teamId" element={<Team />} />
+                <Route path="new" element={<NewTeamForm />} />
+                <Route index element={<LeagueStandings />} /> */}
+              {/* </Route> */}
+            </Route>
+          </Routes>
+        </BrowserRouter>
     </div>
   );
 }
