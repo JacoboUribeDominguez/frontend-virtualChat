@@ -468,7 +468,7 @@
 .start-new-conversation-container {
     align-items: flex-end;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     position: absolute;
     left: 0;
     height: calc(100% - 60px - 1rem);
