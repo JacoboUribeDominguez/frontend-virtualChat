@@ -107,7 +107,7 @@
     box-sizing: border-box;
     color: white;
     display:flex;
-    justify-content: end;
+    justify-content: flex-end;
     padding: 0px 1rem;
     height: 60px;
     width: 100%;
