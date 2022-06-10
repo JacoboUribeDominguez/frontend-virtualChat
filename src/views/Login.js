@@ -1,63 +1,40 @@
 import React, { useState } from 'react'
 import Button from '../components/login/Button';
+import DivOption from '../components/login/DivOption';
 import Form from '../components/login/Form';
+import FormLoginSection from '../components/login/FormLoginSection';
+import OptionSection from '../components/login/OptionSection';
 import Title from '../components/login/Title';
+import useLogin from '../hooks/useLogin';
 
 const Login = () => {
 
-    const [isUserActive, setIsUserActive] = useState(true);
-    const [isAdminActive, setIsAdminActive] = useState(false);
-
-    const activateUser = () => {
-        setIsAdminActive(false);
-        setIsUserActive(true);
-    }
-
-    const activateAdmin = () => {
-        setIsAdminActive(true);
-        setIsUserActive(false);
-    }
-
-    const handleButtonActivate = (whoIs) => {
-        if(
-            (whoIs === 'user' && isUserActive === true)
-            ||
-            (whoIs === 'admin' && isAdminActive === true)
-        ){
-            return;
-        }
-        if(isUserActive === true){
-            activateAdmin();
-        }
-        else if(isAdminActive === true){
-            activateUser();
-        }
-    }
+    const { isUserActive, isAdminActive, handleButtonActivate } = useLogin();
 
     return (
-        <>  
-            <Title message = "Welcome to VirtualChat"/>
-            <div className="form-login-section">
-                <div className="options-section">
-                    <div className="option">
+        <>
+            <Title message="Welcome to VirtualChat" />
+            <FormLoginSection>
+                <OptionSection>
+                    <DivOption>
                         <Button
                             whoIs="user"
                             isActive={isUserActive}
                             handleButtonActivate={handleButtonActivate}
-                            titleButton = "Join as user"
-                        />  
-                    </div>
-                    <div className="option">
+                            titleButton="Join as user"
+                        />
+                    </DivOption>
+                    <DivOption>
                         <Button
                             whoIs="admin"
                             isActive={isAdminActive}
                             handleButtonActivate={handleButtonActivate}
-                            titleButton = "Join as admin"
+                            titleButton="Join as admin"
                         />
-                    </div>
-                </div>
+                    </DivOption>
+                </OptionSection>
                 <Form isUserActive={isUserActive} />
-            </div>
+            </FormLoginSection>
         </>
     )
 }
