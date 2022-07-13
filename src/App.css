@@ -113,6 +113,11 @@
     width: 100%;
 }
 
+.logout:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 .body-admin-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -198,7 +203,7 @@
     text-align: center;
 }
 
-.severity-container {
+.severities-container {
     align-items: center;
     background-color: #f6f6f6;
     border-radius: 3px;
@@ -210,7 +215,6 @@
 }
 
 .severity {
-    background: red;
     box-sizing: border-box;
     border-radius: 3px;
     color: white;
@@ -219,12 +223,17 @@
     margin-bottom: 1rem;
 }
 
-.severity:nth-child(2) {
-    background-color: rgb(236, 221, 9);
+.severity:hover {
+    cursor: pointer;
 }
 
-.severity:nth-child(3) {
-    background-color: rgb(63, 222, 20);
+.add-severity-container {
+    align-items: center;
+    display: flex;
+}
+
+.add-severity-container>input {
+    margin-left: 1rem;
 }
 
 .add-severity {
@@ -238,8 +247,16 @@
     justify-content: space-between;
     padding: .7rem 1rem;
     width: 10rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
 }
+
+.add-severity input {
+    background: none;
+    border:none;
+    outline: none;
+    width: 100%;
+}
+
 
 .information-container .information {
     background-color: #94d6e8;
@@ -384,10 +401,13 @@
 .messages-container {
     display: flex;
     flex-direction: column-reverse;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .message {
     display: flex;
+    margin: .5rem 0px;
 }
 
 .message div{

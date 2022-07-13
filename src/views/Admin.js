@@ -1,127 +1,104 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowRightFromBracket, faPlus, faTrash, faTurnDown } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
+import OptionsSupport from '../components/Admin/OptionsSupport'
+import Severity from '../components/Admin/Severity'
+import Chats from '../components/Admin/Chats'
+import io from 'socket.io-client';
 
 const Admin = () => {
 
+    const [chats, setChats] = useState([]);
+
+    const [socket, setSocket] = useState(null);
     const navigate = useNavigate();
-  return (
-    <div className="admin-container">
-        <div className="header-container">
-            <FontAwesomeIcon icon={faArrowRightFromBracket}/>
-        </div>
-        <div className="body-admin-container">
-            <div className="left-side-container">
-                <div className="options-support">
-                    <h3
-                        className="options-support-title"
-                    >
-                        Elements to support users
-                        <FontAwesomeIcon icon={faTurnDown} />
-                    </h3>
-                    <div className="option-support selected">
-                        this is an element
-                    </div>
-                    <div className="option-support">
-                        this is an element
-                    </div>
-                    <div className="option-support">
-                        this is an element
-                    </div>
-                    <div className="option-support-add">
-                        <input placeholder="Add element"/>
-                        <FontAwesomeIcon icon={faPlus} />
-                    </div>
+    useEffect(() => {
+        if (!localStorage.getItem('id_user')) {
+            navigate('/')
+        }
+    }, [navigate])
+
+    const onLogout = () => {
+        localStorage.removeItem('id_user')
+        navigate('/')
+    }
+
+    /* useeffect for when we are connect */
+    useEffect(() => {
+        if(socket !== null){
+            socket.on('connect', () => {
+                socket.emit('join', localStorage.getItem('id_user'))
+                socket.on('newconversation', ({message, topic}) => {
+                    setChats((prevState) => {
+                        if(prevState.find(conversation => conversation.messages.length > 0)){
+                            return(
+                                [
+                                    ...prevState.slice(0, prevState.length - 1),
+                                    {
+                                        ...prevState[prevState.length - 1],
+                                        messages: [message, ...prevState[prevState.length - 1].messages]
+                                    }
+                                ]
+                            )
+                        } else {
+                            return(
+                                [
+                                    ...prevState,
+                                    {
+                                        id_chat_admin: 1,
+                                        color: topic.color,
+                                        name : topic.name,
+                                        messages: [message]
+                                    }
+                                ]
+                            )
+                        }
+                    })
+                })
+            })
+        }
+    }, [socket])
+
+    /* useeffect for leave connection */
+    useEffect(() => {
+        return () => {
+            if(socket !== null){
+                socket.emit('leave room', localStorage.getItem('id_user'))
+                socket.disconnect()
+            }
+        }
+    }, [socket])
+
+    /* useeffect for connect */
+    useEffect(() => {
+        setSocket(io('http://localhost:3001'));
+    }, [])
+    
+    return (
+        <div className="admin-container">
+            <div className="header-container">
+                <FontAwesomeIcon className="logout" icon={faArrowRightFromBracket} onClick={onLogout} />
+            </div>
+            <div className="body-admin-container">
+                <div className="left-side-container">
+                    <OptionsSupport />
+                    <Chats chats={chats}/>
                 </div>
-                <div className="chats-container">
-                    <div className="title-chats-container">
-                        <h3>Chats</h3>
-                        <FontAwesomeIcon icon={faArrowDown} />
-                    </div>
-                    <div className="chats">
-                        <div
-                            className="chat major"
-                            onClick={() => navigate('/chat')}>
-                            Name of topic
-                            <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                        <div
-                            className="chat major"
-                            onClick={() => navigate('/chat')}>
-                            Name of topic
-                            <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                        <div
-                            className="chat major"
-                            onClick={() => navigate('/chat')}>
-                            Name of topic
-                            <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                        <div
-                            className="chat warning"
-                            onClick={() => navigate('/chat')}>
-                            Name of topic
-                            <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                        <div
-                            className="chat warning"
-                            onClick={() => navigate('/chat')}>
-                            Name of topic
-                            <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                        <div
-                            className="chat normal"
-                            onClick={() => navigate('/chat')}>
-                            Name of topic
-                            <FontAwesomeIcon icon={faTrash} />
+                <div className="right-side-body-admin-container">
+                    <Severity />
+                    <div className="information-container">
+                        <h3>
+                            Information of element selected
+                        </h3>
+                        <div className="information">
+                            here we are the information of the problem
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="right-side-body-admin-container">
-                <div>
-                    <h3
-                        className="severity-title"
-                    >
-                        Severity
-                    </h3>
-                    <div className="severity-container">
-                        <div
-                            className="severity"
-                        >
-                            Severity 1
-                        </div>
-                        <div
-                            className="severity"
-                        >
-                            Severity 2
-                        </div>
-                        <div
-                            className="severity"
-                        >
-                            Severity 3
-                        </div>
-                        <div
-                            className="add-severity"
-                        >
-                            Add
-                            <FontAwesomeIcon icon={faPlus} />
-                        </div>
-                    </div>
-                </div>
-                <div className="information-container">
-                    <h3>
-                        Information of element selected
-                    </h3>
-                    <div className="information">
-                        here we are the information of the problem
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default Admin

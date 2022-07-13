@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/login/Button';
 import DivOption from '../components/login/DivOption';
 import Form from '../components/login/Form';
@@ -9,6 +10,12 @@ import useLogin from '../hooks/useLogin';
 
 const Login = () => {
 
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem('id_user')) {
+            navigate(-1)
+        }
+    }, [navigate])
     const { isUserActive, isAdminActive, handleButtonActivate } = useLogin();
 
     return (
