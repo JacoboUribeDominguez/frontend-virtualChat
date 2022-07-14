@@ -72,7 +72,7 @@ const Admin = () => {
 
     /* useeffect for connect */
     useEffect(() => {
-        setSocket(io('http://localhost:3001'));
+        setSocket(io('https://backendvirtualchat.herokuapp.com'));
     }, [])
     
     return (

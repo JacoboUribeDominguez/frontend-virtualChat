@@ -65,7 +65,7 @@ const Chat = ({
 
     //use effect for joing to component
     useEffect(() => {
-        setSocket(io('http://localhost:3001'));
+        setSocket(io('https://backendvirtualchat.herokuapp.com'));
     }, [])
 
     const [message, setMessage] = useState('');
