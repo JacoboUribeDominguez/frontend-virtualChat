@@ -10,7 +10,7 @@ const Form = ({ isUserActive }) => {
 
     const handleLogin = async() => {
         if(user.length > 0 && password.length > 0){
-            const res = await fetch('http://localhost:3001/users/login', {
+            const res = await fetch('https://backendvirtualchat.herokuapp.com/users/login', {
                 method: 'POST',
                 body: JSON.stringify({
                     user,

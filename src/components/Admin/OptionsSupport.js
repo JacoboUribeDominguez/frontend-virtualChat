@@ -16,7 +16,7 @@ const OptionsSupport = () => {
 
   const getOptionsSupport = useCallback(async () => {
     //there will be a fetch
-    const res = await fetch('http://localhost:3001/options-support/getOptions', {
+    const res = await fetch('https://backendvirtualchat.herokuapp.com/options-support/getOptions', {
       method: 'POST',
       body: JSON.stringify({
         admin: localStorage.getItem('id_user'),
@@ -41,7 +41,7 @@ const OptionsSupport = () => {
 
   const addOptionSelected = async() => {
     if (newOptionSelected.length > 0) {
-      const res = await fetch('http://localhost:3001/options-support/addOption', {
+      const res = await fetch('https://backendvirtualchat.herokuapp.com/options-support/addOption', {
         method: 'POST',
         body: JSON.stringify({
           name: newOptionSelected,

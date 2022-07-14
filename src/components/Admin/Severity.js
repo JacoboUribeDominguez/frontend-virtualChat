@@ -15,7 +15,7 @@ const Severity = () => {
     const [newSeverityColor, setNewSeverityColor] = useState('#a8a8a8');
 
     const getSeverities = useCallback(async () => {
-        let res = await fetch('http://localhost:3001/severities/getSeverities', {
+        let res = await fetch('https://backendvirtualchat.herokuapp.com/severities/getSeverities', {
             method: 'POST',
             body: JSON.stringify({
                 admin: localStorage.getItem('id_user'),
@@ -33,7 +33,7 @@ const Severity = () => {
 
     const addSeverity = async () => {
         if (newSeverityName.length > 0) {
-            const res = await fetch('http://localhost:3001/severities/addSeverity', {
+            const res = await fetch('https://backendvirtualchat.herokuapp.com/severities/addSeverity', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: newSeverityName,
@@ -57,7 +57,7 @@ const Severity = () => {
     }
 
     const handleClickSeverity = async (severity) => {
-        await fetch('http://localhost:3001/options-support/changeSeverity', {
+        await fetch('https://backendvirtualchat.herokuapp.com/options-support/changeSeverity', {
             method: 'PUT',
             body: JSON.stringify({
                 id_severity: severity.id_severity,
