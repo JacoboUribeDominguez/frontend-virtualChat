@@ -10,7 +10,7 @@ const Help = () => {
   const [optionsSupport, setOptionsSupport] = useState([]);
 
   const getOptions = useCallback(async() => {
-    const res = await fetch('https://backendvirtualchat.herokuapp.com/getOptionsSupportForUser', {
+    const res = await fetch('https://backendvirtualchat.herokuapp.com/options-support/getOptionsSupportForUser', {
       method: 'POST',
       body: JSON.stringify({
         user_id: localStorage.getItem('id_user'),
