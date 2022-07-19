@@ -8,8 +8,7 @@ const Topic = () => {
     const { state } = useLocation();
     const [information, setInformation] = useState('No hay información');
 
-    const getInformation = async () => {
-        console.log(state)
+    const getInformation = useCallback(async () => {
         const res = await fetch(`${process.env.REACT_APP_API}information/getInformationByOption`, {
             method: 'POST',
             body: JSON.stringify({
@@ -24,7 +23,8 @@ const Topic = () => {
         if(data.data[0]){
             setInformation(data.data[0].description)
         }
-    }
+    }, [setInformation, state])
+
     useEffect(() => {
         getInformation()
         if (!localStorage.getItem('id_user')) {
