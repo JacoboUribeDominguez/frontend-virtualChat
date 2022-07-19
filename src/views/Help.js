@@ -70,21 +70,6 @@ const Help = () => {
               </div>
             ))
           }
-          {/* <div
-            onClick={() => navigate('/topic')}
-            className="topic-element">
-            this is a topic
-          </div>
-          <div
-            onClick={() => navigate('/topic')}
-            className="topic-element">
-            this is a topic
-          </div>
-          <div
-            onClick={() => navigate('/topic')}
-            className="topic-element">
-            this is a topic
-          </div> */}
         </div>
       </div>
     </div>
