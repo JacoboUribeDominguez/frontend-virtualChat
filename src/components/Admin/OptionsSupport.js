@@ -7,7 +7,10 @@ const OptionsSupport = () => {
 
   const {
     optionSelected,
-    setOptionSelected
+    setOptionSelected,
+    setInformationLoading,
+    setInformation,
+    setSeveritySelected
   } = useContext(Context);
 
   const [optionsSupport, setOptionsSupport] = useState([]);
@@ -16,7 +19,7 @@ const OptionsSupport = () => {
 
   const getOptionsSupport = useCallback(async () => {
     //there will be a fetch
-    const res = await fetch('https://backendvirtualchat.herokuapp.com/options-support/getOptions', {
+    const res = await fetch(`${process.env.REACT_APP_API}options-support/getOptions`, {
       method: 'POST',
       body: JSON.stringify({
         admin: localStorage.getItem('id_user'),
@@ -26,22 +29,62 @@ const OptionsSupport = () => {
       }
     })
     const data = await res.json();
+    console.log(data.data)
     if(data.data && data.data.length > 0){
       setOptionsSupport(data.data)
+      console.log(data.data)
+      setSeveritySelected(data.data[0].id_severity)
       setOptionSelected(data.data[0].id_option_support)
+      const res2 = await fetch(`${process.env.REACT_APP_API}information/getInformationByOption`, {
+        method: 'POST',
+        body: JSON.stringify({
+          id_option_support: data.data[0].id_option_support,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const data2 = await res2.json();
+      if(data2.data){
+        if(data2.data.length === 0){
+          setInformation({ description: 'No information for this option'})
+        } else {
+          setInformation(data2.data[0])
+        }
+        setInformationLoading(false);
+      }
     }
-  }, [setOptionSelected])
+  }, [setOptionSelected, setInformation, setInformationLoading])
 
-  const onClickOptionSupport = (id) => {
-    if (id !== optionSelected) {
-      setOptionSelected(id)
-      setOptionSelected(id);
+  const onClickOptionSupport = async(option) => {
+    if (option.id_option_support !== optionSelected) {
+      setSeveritySelected(option.id_severity)
+      setOptionSelected(option.id_option_support);
+      setInformationLoading(true);
+      const res2 = await fetch(`${process.env.REACT_APP_API}information/getInformationByOption`, {
+        method: 'POST',
+        body: JSON.stringify({
+          id_option_support: option.id_option_support,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const data2 = await res2.json();
+      if(data2.data){
+        if(data2.data.length === 0){
+          setInformation({ description: 'No information for this option'})
+        } else {
+          setInformation(data2.data[0])
+        }
+        setInformationLoading(false);
+      }
     }
   }
 
   const addOptionSelected = async() => {
     if (newOptionSelected.length > 0) {
-      const res = await fetch('https://backendvirtualchat.herokuapp.com/options-support/addOption', {
+      const res = await fetch(`${process.env.REACT_APP_API}options-support/addOption`, {
         method: 'POST',
         body: JSON.stringify({
           name: newOptionSelected,
@@ -78,7 +121,7 @@ const OptionsSupport = () => {
           <div
             key={option.id_option_support}
             className={`option-support ${(option.id_option_support === optionSelected) && 'selected'}`}
-            onClick={() => onClickOptionSupport(option.id_option_support)}
+            onClick={() => onClickOptionSupport(option)}
           >
             {option.name}
           </div>

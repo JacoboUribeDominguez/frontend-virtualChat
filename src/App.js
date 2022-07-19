@@ -11,6 +11,7 @@ import Chat from './views/Chat';
 import Topic from './views/Topic';
 
 function App() {
+  console.log(process.env.REACT_APP_API)
   return (
     <div className="App">
       <BrowserRouter>
@@ -22,10 +23,6 @@ function App() {
               <Route path="chat" element={<Chat isAdmin={true} />} />
               <Route path="topic" element={<Topic />} />
               <Route path="topic/chat" element={<Chat isAdmin={false} />} />
-                {/* <Route path=":teamId" element={<Team />} />
-                <Route path="new" element={<NewTeamForm />} />
-                <Route index element={<LeagueStandings />} /> */}
-              {/* </Route> */}
             </Route>
           </Routes>
         </BrowserRouter>

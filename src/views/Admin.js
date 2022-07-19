@@ -6,12 +6,14 @@ import OptionsSupport from '../components/Admin/OptionsSupport'
 import Severity from '../components/Admin/Severity'
 import Chats from '../components/Admin/Chats'
 import io from 'socket.io-client';
+import Information from '../components/Admin/Information'
 
 const Admin = () => {
 
     const [chats, setChats] = useState([]);
 
     const [socket, setSocket] = useState(null);
+    
     const navigate = useNavigate();
     useEffect(() => {
         if (!localStorage.getItem('id_user')) {
@@ -87,14 +89,7 @@ const Admin = () => {
                 </div>
                 <div className="right-side-body-admin-container">
                     <Severity />
-                    <div className="information-container">
-                        <h3>
-                            Information of element selected
-                        </h3>
-                        <div className="information">
-                            here we are the information of the problem
-                        </div>
-                    </div>
+                    <Information />
                 </div>
             </div>
         </div>

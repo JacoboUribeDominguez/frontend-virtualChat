@@ -513,3 +513,32 @@
 .btn-start-new-conversation svg {
     margin-left: 1rem;
 }
+
+.text-area-information {
+    background: #bde0eb;
+    border:none;
+    box-sizing:border-box;
+    resize: none;
+    outline: none;
+    padding: 1rem;
+    width:100%; 
+}
+
+.information {
+    position: relative;
+}
+
+.saveIcon {
+    background: white;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: .5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: .5rem;
+}
+
+.saveIcon:hover {
+    cursor: pointer;
+}

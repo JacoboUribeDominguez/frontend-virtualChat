@@ -9,8 +9,8 @@ const Help = () => {
 
   const [optionsSupport, setOptionsSupport] = useState([]);
 
-  const getOptions = useCallback(async() => {
-    const res = await fetch('https://backendvirtualchat.herokuapp.com/options-support/getOptionsSupportForUser', {
+  const getOptions = useCallback(async () => {
+    const res = await fetch(`${process.env.REACT_APP_API}options-support/getOptionsSupportForUser`, {
       method: 'POST',
       body: JSON.stringify({
         user_id: localStorage.getItem('id_user'),
@@ -25,6 +25,11 @@ const Help = () => {
     setOptionsSupport(data.data);
   }, [])
 
+  const onLogout = () => {
+    localStorage.removeItem('id_user')
+    navigate('/')
+  }
+
   useEffect(() => {
     if (!localStorage.getItem('id_user')) {
       navigate('/')
@@ -38,7 +43,7 @@ const Help = () => {
   return (
     <div className="help-container">
       <div className="header-container">
-        <FontAwesomeIcon icon={faArrowRightFromBracket} />
+        <FontAwesomeIcon icon={faArrowRightFromBracket} onClick={onLogout} />
       </div>
       <div className="help-body">
         <h3>Topics</h3>
@@ -48,11 +53,11 @@ const Help = () => {
               <div
                 onClick={
                   () => navigate(
-                    '/topic', 
-                    { 
-                      state : {
-                        name: option.name, 
-                        id_option: option.id_option_support, 
+                    '/topic',
+                    {
+                      state: {
+                        name: option.name,
+                        id_option: option.id_option_support,
                         id_admin: option.id_admin,
                         color: option.color
                       }

@@ -10,7 +10,7 @@ const Form = ({ isUserActive }) => {
 
     const handleLogin = async() => {
         if(user.length > 0 && password.length > 0){
-            const res = await fetch('https://backendvirtualchat.herokuapp.com/users/login', {
+            const res = await fetch(`${process.env.REACT_APP_API}users/login`, {
                 method: 'POST',
                 body: JSON.stringify({
                     user,
@@ -52,6 +52,7 @@ const Form = ({ isUserActive }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={"Write your password"}
+                    type="password"
                 />
             </div>
             <div className="btn-form-container">

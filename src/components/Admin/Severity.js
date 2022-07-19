@@ -5,17 +5,19 @@ import Context from '../../context/Context';
 
 const Severity = () => {
 
-    const { optionSelected } = useContext(Context);
-    console.log(optionSelected)
+    const {
+        optionSelected,
+        severitySelected,
+        setSeveritySelected
+    } = useContext(Context);
 
     const [severities, setSeverities] = useState([]);
-    const [severitySelected, setSeveritySelected] = useState(0);
 
     const [newSeverityName, setNewSeverityName] = useState('');
     const [newSeverityColor, setNewSeverityColor] = useState('#a8a8a8');
 
     const getSeverities = useCallback(async () => {
-        let res = await fetch('https://backendvirtualchat.herokuapp.com/severities/getSeverities', {
+        let res = await fetch(`${process.env.REACT_APP_API}severities/getSeverities`, {
             method: 'POST',
             body: JSON.stringify({
                 admin: localStorage.getItem('id_user'),
@@ -25,15 +27,12 @@ const Severity = () => {
             }
         })
         const data = await res.json();
-        if (data.data[0].id_severity) {
-            setSeveritySelected(data.data[0].id_severity)
-        }
         setSeverities(data.data);
     }, [])
 
     const addSeverity = async () => {
         if (newSeverityName.length > 0) {
-            const res = await fetch('https://backendvirtualchat.herokuapp.com/severities/addSeverity', {
+            const res = await fetch(`${process.env.REACT_APP_API}severities/addSeverity`, {
                 method: 'POST',
                 body: JSON.stringify({
                     name: newSeverityName,
@@ -57,7 +56,7 @@ const Severity = () => {
     }
 
     const handleClickSeverity = async (severity) => {
-        await fetch('https://backendvirtualchat.herokuapp.com/options-support/changeSeverity', {
+        await fetch(`${process.env.REACT_APP_API}options-support/changeSeverity`, {
             method: 'PUT',
             body: JSON.stringify({
                 id_severity: severity.id_severity,
@@ -67,6 +66,7 @@ const Severity = () => {
                 'Content-Type': 'application/json'
             }
         })
+        setSeveritySelected(severity.id_severity);
     }
 
     useEffect(() => {
