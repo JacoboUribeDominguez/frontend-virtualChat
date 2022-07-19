@@ -54,7 +54,7 @@ const OptionsSupport = () => {
         setInformationLoading(false);
       }
     }
-  }, [setOptionSelected, setInformation, setInformationLoading])
+  }, [setOptionSelected, setInformation, setInformationLoading, setSeveritySelected])
 
   const onClickOptionSupport = async(option) => {
     if (option.id_option_support !== optionSelected) {
